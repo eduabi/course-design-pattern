@@ -32,8 +32,8 @@ var DesignPattern = { //全局命名空间
             return this.instance;
         }
     },
-    publisher: {    //发布订阅模式中的发布器
-        infoStorage: {},    //事件订阅信息存储器
+    publisher: { //发布订阅模式中的发布器
+        infoStorage: {}, //事件订阅信息存储器
         bindEvent: function (eventName, callback) { //订阅事件
             if (!this.infoStorage[eventName]) {
                 this.infoStorage[eventName] = [callback];
@@ -41,13 +41,16 @@ var DesignPattern = { //全局命名空间
             }
             this.infoStorage[eventName].push(callback);
         },
-        broadcast: function (eventName) {   //发布事件通知
+        broadcast: function (eventName) { //发布事件通知
             if (!this.infoStorage[eventName]) {
                 return;
             }
             for (var i = 0, fn; fn = this.infoStorage[eventName][i++];) {
-                fn.apply(this, Array.prototype.slice.call(arguments,1));
+                fn.apply(this, Array.prototype.slice.call(arguments, 1));
             }
         }
+    },
+    matchStrategy: (key, patObj, fn) => {   //策略模式=>策略匹配方法
+        patObj instanceof Object && patObj.hasOwnProperty(key) && fn(patObj[key])
     }
 }
