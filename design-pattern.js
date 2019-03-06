@@ -50,7 +50,24 @@ var DesignPattern = { //全局命名空间
             }
         }
     },
-    matchStrategy: (key, patObj, fn) => {   //策略模式=>策略匹配方法
+    matchStrategy: (key, patObj, fn) => { //策略模式=>策略匹配方法
         patObj instanceof Object && patObj.hasOwnProperty(key) && fn(patObj[key])
+    },
+    proxyService: {
+        syncProcess: function (src, tar) { //代理模式=》逻辑处理
+            var _resConfig = {
+                complete: false,
+                results: '不满足条件!'
+            }
+            if (this.filter(src)) {
+                var res = tar.receiver(src.requestParams)
+                _resConfig.complete = true;
+                _resConfig.results = res;
+            }
+            return _resConfig;
+        },
+        filter: function (src) { //过滤规则
+            return true;
+        }
     }
 }
