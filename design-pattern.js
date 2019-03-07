@@ -69,5 +69,41 @@ var DesignPattern = { //全局命名空间
         filter: function (src) { //过滤规则
             return true;
         }
+    },
+    executeCommand: function (receiver, actionCode) { //命令模式
+        //...这里可以做一些预处理
+        return function () {
+            receiver[actionCode]();
+        }
+    },
+    ergEach: function (target, callback) { //迭代器模式
+        var _$cache, index = 0,
+            isArray = Array.isArray(target),
+            isObject = target.__proto__.constructor.name === 'Object';
+        if (!isArray && !isObject) {
+            return;
+        }
+        isArray && function (fn) {
+            for (var i = 0; i < target.length; i++) { 
+                var _curRessult = callback.call(target[i], target[i], i, target)
+                if (_curRessult === false) {
+                    break;
+                } else {
+                    _$cache = _$cache || []
+                    _$cache.push(_curRessult);
+                }
+            }
+        }();
+        isObject && function () {
+            for (var item in target) {
+                var _curRessult = callback.call(target[item], target[item], item, target)
+                if (_curRessult === false) {
+                    break;
+                }
+                _$cache = _$cache || Object.create(null);
+                _$cache[index++] = _curRessult;
+            }
+        }();
+        return _$cache;
     }
 }

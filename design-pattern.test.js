@@ -44,3 +44,44 @@ var tar = {
     }
 }
 console.log(DesignPattern.proxyService.syncProcess(source, tar));
+
+//代理模式测试
+var ball = {
+    toLeft: function (a) {
+        console.log('toLeft');
+    },
+    toRight: function (b) {
+        console.log('toRight');
+    },
+    toTop: function () {
+        console.log('toTop');
+    },
+    toBottom: function () {
+        console.log('toBottom');
+    }
+}
+var ballToLeft = DesignPattern.executeCommand(ball, 'toLeft');
+ballToLeft();
+
+//迭代器模式测试
+var eachList = [1, 25, 55, 66];
+var eachListRes = DesignPattern.ergEach(eachList, function (val, key, item) {
+    if (val < 50) {
+        return {
+            str: val + '_' + key
+        }
+    } else {
+        return [val, key]
+    }
+});
+console.log(eachListRes);
+var eachObj = {
+    name: 'jack',
+    age: 55,
+    address: '陕西省',
+    lang: '汉语'
+};
+var eachObjRes = DesignPattern.ergEach(eachObj, function (val, key, item) {
+    return {key:val,val:val}
+});
+console.log(eachObjRes);
